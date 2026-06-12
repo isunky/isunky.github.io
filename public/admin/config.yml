@@ -1,0 +1,95 @@
+backend:
+  name: github
+  repo: isunky/isunky.github.io
+  branch: master
+  base_url: https://isunky-decap-oauth.isunky.workers.dev
+  auth_endpoint: /auth
+  commit_messages:
+    create: "content: create {{collection}} {{slug}}"
+    update: "content: update {{collection}} {{slug}}"
+    delete: "content: delete {{collection}} {{slug}}"
+    uploadMedia: "content: upload media {{path}}"
+    deleteMedia: "content: delete media {{path}}"
+
+local_backend: true
+site_url: https://isunky.github.io
+display_url: https://isunky.github.io
+logo_url: /favicon.svg
+locale: zh_Hans
+media_folder: "public/uploads"
+public_folder: "/uploads"
+search: true
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  - name: "logs"
+    label: "Personal Logs"
+    label_singular: "Personal Log"
+    folder: "src/content/logs"
+    create: true
+    delete: true
+    extension: "md"
+    format: "frontmatter"
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "logs/{{slug}}/"
+    sortable_fields: ["date", "title"]
+    fields:
+      - { name: "title", label: "Title", widget: "string" }
+      - { name: "description", label: "Summary", widget: "text" }
+      - { name: "date", label: "Publish Date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - { name: "tags", label: "Tags", widget: "list", required: false, field: { label: "Tag", name: "tag", widget: "string" } }
+      - { name: "draft", label: "Draft", widget: "boolean", required: false, default: false }
+      - { name: "body", label: "Body", widget: "markdown" }
+
+  - name: "product-logs"
+    label: "Product Logs"
+    label_singular: "Product Log"
+    folder: "src/content/product-logs"
+    create: true
+    delete: true
+    extension: "md"
+    format: "frontmatter"
+    slug: "{{fields.product}}-{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "product-logs/{{slug}}/"
+    sortable_fields: ["date", "product", "title"]
+    fields:
+      - { name: "title", label: "Title", widget: "string" }
+      - { name: "description", label: "Summary", widget: "text" }
+      - { name: "date", label: "Publish Date", widget: "datetime", date_format: "YYYY-MM-DD", time_format: false, format: "YYYY-MM-DD" }
+      - label: "Product"
+        name: "product"
+        widget: "select"
+        options:
+          - { label: "MDView", value: "mdview" }
+          - { label: "agent-md-wizard", value: "agent-md-wizard" }
+          - { label: "isunky.github.io", value: "isunky-github-io" }
+      - { name: "stage", label: "Stage / Version", widget: "string" }
+      - { name: "version", label: "Version", widget: "string", required: false }
+      - { name: "tags", label: "Tags", widget: "list", required: false, field: { label: "Tag", name: "tag", widget: "string" } }
+      - { name: "draft", label: "Draft", widget: "boolean", required: false, default: false }
+      - { name: "body", label: "Body", widget: "markdown" }
+
+  - name: "products"
+    label: "Products"
+    label_singular: "Product"
+    folder: "src/content/products"
+    create: true
+    delete: true
+    extension: "md"
+    format: "frontmatter"
+    slug: "{{slug}}"
+    preview_path: "products/{{slug}}/"
+    sortable_fields: ["displayOrder", "name", "status"]
+    fields:
+      - { name: "name", label: "Product Name", widget: "string" }
+      - { name: "description", label: "Short Intro", widget: "text" }
+      - { name: "status", label: "Status", widget: "string" }
+      - { name: "repo", label: "Repository URL", widget: "string" }
+      - { name: "site", label: "Site URL", widget: "string", required: false }
+      - { name: "stack", label: "Stack / Keywords", widget: "list", required: false, field: { label: "Keyword", name: "item", widget: "string" } }
+      - { name: "displayOrder", label: "Homepage Order", widget: "number", value_type: "int", default: 999 }
+      - { name: "draft", label: "Draft", widget: "boolean", required: false, default: false }
+      - { name: "body", label: "Detail", widget: "markdown" }
