@@ -1,0 +1,30 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProductCard from "../../components/ProductCard.astro";
+import HomeRail from "../../components/HomeRail.astro";
+import { getFeaturedProducts, getLatestProductActivity } from "../../lib/site-data";
+
+const products = await getCollection("products");
+const productLogs = await getCollection("product-logs");
+const logs = await getCollection("logs");
+const featuredProducts = getFeaturedProducts(products, productLogs, products.length);
+const activity = getLatestProductActivity(productLogs, products, 6);
+---
+
+<BaseLayout title="产品 - isunky" description="isunky 正在记录的产品、工具和站点。">
+  <main class="container page-grid">
+    <div class="main-column">
+      <section class="hero">
+        <h1>产品</h1>
+        <p>这里记录正在维护、设计或复盘的产品。每个产品都有独立介绍和产品日志。</p>
+      </section>
+      <section class="section">
+        <div class="product-grid">
+          {featuredProducts.map((product) => <ProductCard product={product} />)}
+        </div>
+      </section>
+    </div>
+    <HomeRail activity={activity} logs={logs} productLogs={productLogs} />
+  </main>
+</BaseLayout>

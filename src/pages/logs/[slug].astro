@@ -1,0 +1,20 @@
+---
+import { getCollection } from "astro:content";
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+import { getPublishedEntries } from "../../lib/site-data";
+
+export async function getStaticPaths() {
+  const entries = getPublishedEntries(await getCollection("logs"));
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const { Content } = await entry.render();
+---
+
+<ArticleLayout entry={entry} typeLabel="个人日志">
+  <Content />
+</ArticleLayout>

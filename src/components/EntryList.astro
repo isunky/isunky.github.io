@@ -1,0 +1,32 @@
+---
+import { formatDate, getLogHref, getProductLogHref } from "../lib/site-data";
+
+const { entries, type = "logs", products = [] } = Astro.props as {
+  entries: any[];
+  type?: string;
+  products?: any[];
+};
+const productMap = new Map<string, any>(products.map((product: any) => [product.slug, product]));
+---
+
+<div class="entry-list">
+  {entries.map((entry: any) => {
+    const isProductLog = type === "product-logs" || entry.collection === "product-logs";
+    const href = isProductLog ? getProductLogHref(entry) : getLogHref(entry);
+    const product = isProductLog ? productMap.get(entry.data.product) : null;
+    return (
+      <article class="entry-row">
+        <div>
+          <h3><a href={href}>{entry.data.title}</a></h3>
+          <p>{entry.data.description}</p>
+          <div class="entry-meta">
+            {product && <span>{product.data.name}</span>}
+            {entry.data.stage && <span>{entry.data.stage}</span>}
+            {entry.data.tags?.slice(0, 3).map((tag: string) => <a href={`/tags/${encodeURIComponent(tag)}/`}>#{tag}</a>)}
+          </div>
+        </div>
+        <time class="entry-date" datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time>
+      </article>
+    );
+  })}
+</div>

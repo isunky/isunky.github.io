@@ -1,0 +1,77 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProductCard from "../components/ProductCard.astro";
+import EntryList from "../components/EntryList.astro";
+import HomeRail from "../components/HomeRail.astro";
+import {
+  formatDate,
+  getFeaturedProducts,
+  getLatestProductActivity,
+  getPublishedEntries,
+  sortByDateDesc,
+} from "../lib/site-data";
+
+const products = await getCollection("products");
+const productLogs = await getCollection("product-logs");
+const logs = await getCollection("logs");
+
+const featuredProducts = getFeaturedProducts(products, productLogs, 3);
+const latestActivity = getLatestProductActivity(productLogs, products, 6);
+const latestLogs = sortByDateDesc(getPublishedEntries(logs)).slice(0, 5);
+const timeline = latestActivity.slice(0, 5);
+---
+
+<BaseLayout>
+  <main class="container page-grid">
+    <div class="main-column">
+      <section class="hero" aria-labelledby="hero-title">
+        <h1 id="hero-title">记录思考，记录产品</h1>
+        <p>一个长期写作的个人站点，用来沉淀个人日志、产品日志和阶段性复盘。</p>
+        <div class="action-row">
+          <a class="button primary" href="/product-logs/">查看产品日志</a>
+          <a class="button secondary" href="/logs/">阅读个人日志</a>
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="products-title">
+        <div class="section-header">
+          <div>
+            <h2 id="products-title">产品观察台</h2>
+            <p class="section-copy">首页优先展示正在记录的产品，每个产品都连接到自己的介绍和最新动态。</p>
+          </div>
+          <a class="text-link" href="/products/">查看全部产品 →</a>
+        </div>
+        <div class="product-grid">
+          {featuredProducts.map((product) => <ProductCard product={product} />)}
+        </div>
+      </section>
+
+      <section class="section" aria-labelledby="logs-title">
+        <div class="section-header">
+          <h2 id="logs-title">最新个人日志</h2>
+          <a class="text-link" href="/logs/">查看全部个人日志 →</a>
+        </div>
+        <EntryList entries={latestLogs} />
+      </section>
+
+      <section class="section" aria-labelledby="timeline-title">
+        <div class="section-header">
+          <h2 id="timeline-title">产品进展</h2>
+          <a class="text-link" href="/product-logs/">查看全部产品日志 →</a>
+        </div>
+        <div class="timeline">
+          {timeline.map((entry) => (
+            <article class="timeline-row">
+              <strong>{entry.productName}</strong>
+              <span>{entry.stage}</span>
+              <span>{entry.data.description}</span>
+              <a href={entry.href}>{formatDate(entry.data.date)} →</a>
+            </article>
+          ))}
+        </div>
+      </section>
+    </div>
+    <HomeRail activity={latestActivity} logs={logs} productLogs={productLogs} />
+  </main>
+</BaseLayout>

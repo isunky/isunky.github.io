@@ -1,0 +1,48 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EntryList from "../../components/EntryList.astro";
+import HomeRail from "../../components/HomeRail.astro";
+import {
+  buildArchiveMonths,
+  getLatestProductActivity,
+  getPublishedEntries,
+  sortByDateDesc,
+  toDate,
+} from "../../lib/site-data";
+
+const logs = await getCollection("logs");
+const products = await getCollection("products");
+const productLogs = await getCollection("product-logs");
+const entries = sortByDateDesc(getPublishedEntries([...logs, ...productLogs]));
+const months = buildArchiveMonths(entries);
+const activity = getLatestProductActivity(productLogs, products, 6);
+---
+
+<BaseLayout title="归档 - isunky" description="按月份浏览个人日志和产品日志。">
+  <main class="container page-grid">
+    <div class="main-column">
+      <section class="hero">
+        <h1>归档</h1>
+        <p>按时间回看个人记录和产品动态。</p>
+      </section>
+      {months.map((month) => {
+        const monthEntries = entries.filter((entry) => {
+          const date = toDate(entry.data.date);
+          const key = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+          return key === month.key;
+        });
+        return (
+          <section class="section" id={month.key}>
+            <div class="section-header">
+              <h2>{month.label}</h2>
+              <span class="entry-meta">{month.count} 篇</span>
+            </div>
+            <EntryList entries={monthEntries} products={products} />
+          </section>
+        );
+      })}
+    </div>
+    <HomeRail activity={activity} logs={logs} productLogs={productLogs} />
+  </main>
+</BaseLayout>

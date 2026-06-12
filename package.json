@@ -1,0 +1,22 @@
+{
+  "name": "isunky-github-io",
+  "type": "module",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@astrojs/check": "^0.9.4",
+    "@astrojs/rss": "^4.0.12",
+    "astro": "^5.9.3",
+    "typescript": "^5.8.3"
+  },
+  "devDependencies": {
+    "vitest": "^3.2.4"
+  }
+}

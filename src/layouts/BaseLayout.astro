@@ -1,0 +1,51 @@
+---
+import SiteHeader from "../components/SiteHeader.astro";
+import { SITE } from "../lib/site-data";
+import "../styles/global.css";
+
+const {
+  title = SITE.title,
+  description = SITE.description,
+} = Astro.props;
+
+const currentPath = Astro.url.pathname;
+const canonical = new URL(currentPath, SITE.url);
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical.href} />
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="/rss.xml" />
+    <script is:inline>
+      const savedTheme = localStorage.getItem("theme");
+      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+      document.documentElement.dataset.theme = savedTheme || (prefersDark ? "dark" : "light");
+    </script>
+  </head>
+  <body>
+    <div class="site-shell">
+      <SiteHeader currentPath={currentPath} />
+      <slot />
+      <footer class="site-footer">
+        <div class="container footer-inner">
+          <span>isunky.github.io</span>
+          <a href="/rss.xml">RSS</a>
+        </div>
+      </footer>
+    </div>
+    <script>
+      const button = document.querySelector("[data-theme-toggle]");
+      button?.addEventListener("click", () => {
+        const root = document.documentElement;
+        const next = root.dataset.theme === "dark" ? "light" : "dark";
+        root.dataset.theme = next;
+        localStorage.setItem("theme", next);
+      });
+    </script>
+  </body>
+</html>

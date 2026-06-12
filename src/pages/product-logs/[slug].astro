@@ -1,0 +1,22 @@
+---
+import { getCollection } from "astro:content";
+import ArticleLayout from "../../layouts/ArticleLayout.astro";
+import { getPublishedEntries } from "../../lib/site-data";
+
+export async function getStaticPaths() {
+  const entries = getPublishedEntries(await getCollection("product-logs"));
+  return entries.map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry },
+  }));
+}
+
+const { entry } = Astro.props;
+const products = await getCollection("products");
+const product = products.find((item) => item.slug === entry.data.product);
+const { Content } = await entry.render();
+---
+
+<ArticleLayout entry={entry} typeLabel="产品日志" productName={product?.data.name}>
+  <Content />
+</ArticleLayout>

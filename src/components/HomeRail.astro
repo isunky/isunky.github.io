@@ -1,0 +1,68 @@
+---
+import { buildArchiveMonths, buildTagIndex, formatDate } from "../lib/site-data";
+
+const { activity, logs, productLogs } = Astro.props as {
+  activity: any[];
+  logs: any[];
+  productLogs: any[];
+};
+const tags = buildTagIndex([...logs, ...productLogs]).slice(0, 12);
+const months = buildArchiveMonths([...logs, ...productLogs]).slice(0, 6);
+---
+
+<aside class="side-rail">
+  <section class="rail-block">
+    <h2>搜索</h2>
+    <form class="search-box" action="/search/" method="get">
+      <input type="search" name="q" placeholder="输入关键词搜索..." aria-label="输入关键词搜索" />
+      <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <path d="m21 21-4.2-4.2m1.2-5.3a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      </svg>
+    </form>
+  </section>
+
+  <section class="rail-block">
+    <h2>产品动态</h2>
+    <div class="rail-list">
+      {activity.map((entry: any) => (
+        <a class="rail-item" href={entry.href}>
+          <span>
+            <strong>{entry.productName}</strong>
+            <span>{entry.stage}</span>
+            <small>{formatDate(entry.data.date)}</small>
+          </span>
+          <span>›</span>
+        </a>
+      ))}
+    </div>
+    <p><a class="text-link" href="/product-logs/">查看全部产品日志 →</a></p>
+  </section>
+
+  <section class="rail-block">
+    <h2>按标签浏览</h2>
+    <div class="tag-cloud">
+      {tags.map((tag) => <a class="tag" href={`/tags/${encodeURIComponent(tag.name)}/`}>{tag.name} {tag.count}</a>)}
+    </div>
+    <p><a class="text-link" href="/tags/">查看全部标签 →</a></p>
+  </section>
+
+  <section class="rail-block">
+    <h2>归档</h2>
+    <div class="archive-list">
+      {months.map((month) => (
+        <a class="archive-row" href={`/archive/#${month.key}`}>
+          <span>{month.label}</span>
+          <span>{month.count}</span>
+        </a>
+      ))}
+    </div>
+    <p><a class="text-link" href="/archive/">查看全部归档 →</a></p>
+  </section>
+
+  <section class="rail-block">
+    <a class="rss-row" href="/rss.xml">
+      <span>RSS</span>
+      <span>›</span>
+    </a>
+  </section>
+</aside>

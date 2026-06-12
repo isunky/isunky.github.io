@@ -1,0 +1,29 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import HomeRail from "../../components/HomeRail.astro";
+import { buildTagIndex, getLatestProductActivity } from "../../lib/site-data";
+
+const logs = await getCollection("logs");
+const products = await getCollection("products");
+const productLogs = await getCollection("product-logs");
+const tags = buildTagIndex([...logs, ...productLogs]);
+const activity = getLatestProductActivity(productLogs, products, 6);
+---
+
+<BaseLayout title="标签 - isunky" description="按标签浏览个人日志和产品日志。">
+  <main class="container page-grid">
+    <div class="main-column">
+      <section class="hero">
+        <h1>标签</h1>
+        <p>用标签把个人思考、产品动态和工具实践串起来。</p>
+      </section>
+      <section class="section">
+        <div class="tag-cloud">
+          {tags.map((tag) => <a class="tag" href={`/tags/${encodeURIComponent(tag.name)}/`}>{tag.name} {tag.count}</a>)}
+        </div>
+      </section>
+    </div>
+    <HomeRail activity={activity} logs={logs} productLogs={productLogs} />
+  </main>
+</BaseLayout>

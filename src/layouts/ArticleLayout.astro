@@ -1,0 +1,53 @@
+---
+import BaseLayout from "./BaseLayout.astro";
+import { formatDate } from "../lib/site-data";
+
+const { entry, typeLabel, productName } = Astro.props as {
+  entry: any;
+  typeLabel: string;
+  productName?: string;
+};
+const title = `${entry.data.title} - isunky`;
+---
+
+<BaseLayout title={title} description={entry.data.description}>
+  <main class="container page-grid">
+    <article class="main-column article">
+      <header class="article-header">
+        <div class="entry-meta">
+          <span>{typeLabel}</span>
+          {productName && <span>{productName}</span>}
+          {entry.data.stage && <span>{entry.data.stage}</span>}
+          <time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time>
+        </div>
+        <h1>{entry.data.title}</h1>
+        <p>{entry.data.description}</p>
+        <div class="stack">
+          {entry.data.tags?.map((tag: string) => <a class="tag" href={`/tags/${encodeURIComponent(tag)}/`}>{tag}</a>)}
+        </div>
+      </header>
+      <div class="article-body">
+        <slot />
+      </div>
+    </article>
+    <aside class="side-rail">
+      <section class="rail-block">
+        <h2>继续浏览</h2>
+        <div class="rail-list">
+          <a class="rail-item" href="/product-logs/">
+            <span><strong>产品日志</strong><small>查看全部产品动态</small></span>
+            <span>→</span>
+          </a>
+          <a class="rail-item" href="/logs/">
+            <span><strong>个人日志</strong><small>回到个人记录</small></span>
+            <span>→</span>
+          </a>
+          <a class="rail-item" href="/search/">
+            <span><strong>搜索</strong><small>检索产品和日志</small></span>
+            <span>→</span>
+          </a>
+        </div>
+      </section>
+    </aside>
+  </main>
+</BaseLayout>

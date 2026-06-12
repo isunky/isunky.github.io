@@ -1,0 +1,36 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EntryList from "../../components/EntryList.astro";
+import HomeRail from "../../components/HomeRail.astro";
+import { buildTagIndex, entriesForTag, getLatestProductActivity } from "../../lib/site-data";
+
+export async function getStaticPaths() {
+  const logs = await getCollection("logs");
+  const productLogs = await getCollection("product-logs");
+  return buildTagIndex([...logs, ...productLogs]).map((tag) => ({
+    params: { tag: encodeURIComponent(tag.name) },
+    props: { tag: tag.name },
+  }));
+}
+
+const { tag } = Astro.props;
+const logs = await getCollection("logs");
+const products = await getCollection("products");
+const productLogs = await getCollection("product-logs");
+const entries = entriesForTag([...logs, ...productLogs], tag);
+const activity = getLatestProductActivity(productLogs, products, 6);
+---
+
+<BaseLayout title={`${tag} - isunky`} description={`浏览标签 ${tag} 下的日志。`}>
+  <main class="container page-grid">
+    <div class="main-column">
+      <section class="hero">
+        <h1>#{tag}</h1>
+        <p>这个标签下共有 {entries.length} 篇公开记录。</p>
+      </section>
+      <EntryList entries={entries} products={products} />
+    </div>
+    <HomeRail activity={activity} logs={logs} productLogs={productLogs} />
+  </main>
+</BaseLayout>

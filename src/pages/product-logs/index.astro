@@ -1,0 +1,25 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import EntryList from "../../components/EntryList.astro";
+import HomeRail from "../../components/HomeRail.astro";
+import { getLatestProductActivity, getPublishedEntries, sortByDateDesc } from "../../lib/site-data";
+
+const products = await getCollection("products");
+const productLogs = sortByDateDesc(getPublishedEntries(await getCollection("product-logs")));
+const logs = await getCollection("logs");
+const activity = getLatestProductActivity(productLogs, products, 6);
+---
+
+<BaseLayout title="产品日志 - isunky" description="isunky 的产品动态、版本记录和阶段性取舍。">
+  <main class="container page-grid">
+    <div class="main-column">
+      <section class="hero">
+        <h1>产品日志</h1>
+        <p>记录产品介绍之外的动态：功能规划、阶段复盘、实现取舍和后续方向。</p>
+      </section>
+      <EntryList entries={productLogs} type="product-logs" products={products} />
+    </div>
+    <HomeRail activity={activity} logs={logs} productLogs={productLogs} />
+  </main>
+</BaseLayout>

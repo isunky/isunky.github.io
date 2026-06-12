@@ -1,0 +1,114 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+---
+
+<BaseLayout title="搜索 - isunky" description="搜索产品、个人日志和产品日志。">
+  <main class="container page-grid">
+    <div class="main-column">
+      <section class="hero">
+        <h1>搜索</h1>
+        <p>检索产品介绍、个人日志和产品日志。搜索在本地完成，不需要外部服务。</p>
+        <form class="search-box" role="search" data-search-form>
+          <input type="search" name="q" placeholder="输入关键词搜索..." aria-label="输入关键词搜索" data-search-input />
+          <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="m21 21-4.2-4.2m1.2-5.3a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+        </form>
+      </section>
+      <section class="search-results" data-search-results>
+        <div class="empty-state">输入关键词后会显示匹配的产品和日志。</div>
+      </section>
+    </div>
+    <aside class="side-rail">
+      <section class="rail-block">
+        <h2>搜索范围</h2>
+        <div class="rail-list">
+          <div class="rail-item"><span><strong>产品</strong><small>产品介绍、状态、技术栈</small></span></div>
+          <div class="rail-item"><span><strong>个人日志</strong><small>思考、写作、复盘</small></span></div>
+          <div class="rail-item"><span><strong>产品日志</strong><small>阶段、版本、动态</small></span></div>
+        </div>
+      </section>
+    </aside>
+  </main>
+  <script>
+    type SearchEntry = {
+      type: string;
+      title: string;
+      description: string;
+      href: string;
+      date?: string;
+      tags: string[];
+      body: string;
+    };
+
+    const form = document.querySelector<HTMLFormElement>("[data-search-form]");
+    const input = document.querySelector<HTMLInputElement>("[data-search-input]");
+    const results = document.querySelector<HTMLElement>("[data-search-results]");
+    const params = new URLSearchParams(window.location.search);
+    let index: SearchEntry[] = [];
+
+    function escapeHtml(value: string) {
+      const replacements: Record<string, string> = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#039;",
+      };
+      return value.replace(/[&<>"']/g, (character: string) => replacements[character]);
+    }
+
+    function render(query: string) {
+      if (!results) return;
+      const normalized = query.trim().toLowerCase();
+      if (!normalized) {
+        results.innerHTML = '<div class="empty-state">输入关键词后会显示匹配的产品和日志。</div>';
+        return;
+      }
+
+      const matches = index.filter((entry) =>
+        [entry.title, entry.description, entry.type, entry.body, ...(entry.tags || [])]
+          .join(" ")
+          .toLowerCase()
+          .includes(normalized),
+      );
+
+      if (matches.length === 0) {
+        results.innerHTML = '<div class="empty-state">没有找到匹配内容。</div>';
+        return;
+      }
+
+      results.innerHTML = `<div class="entry-list">${matches
+        .map((entry) => `
+          <article class="entry-row">
+            <div>
+              <h3><a href="${entry.href}">${escapeHtml(entry.title)}</a></h3>
+              <p>${escapeHtml(entry.description)}</p>
+              <div class="entry-meta">
+                <span>${escapeHtml(entry.type)}</span>
+                ${(entry.tags || []).slice(0, 3).map((tag: string) => `<span>#${escapeHtml(tag)}</span>`).join("")}
+              </div>
+            </div>
+            <span class="entry-date">${entry.date ? escapeHtml(entry.date) : ""}</span>
+          </article>
+        `)
+        .join("")}</div>`;
+    }
+
+    async function boot() {
+      index = await fetch("/search-index.json").then((response) => response.json() as Promise<SearchEntry[]>);
+      const initial = params.get("q") || "";
+      if (input) {
+        input.value = initial;
+        input.addEventListener("input", () => render(input.value));
+      }
+      form?.addEventListener("submit", (event) => {
+        event.preventDefault();
+        render(input?.value || "");
+      });
+      render(initial);
+    }
+
+    boot();
+  </script>
+</BaseLayout>
