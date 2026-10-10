@@ -1,0 +1,42 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/theme.json",
+  "version": 3,
+  "settings": {
+    "appearanceTools": true,
+    "layout": { "contentSize": "820px", "wideSize": "1220px" },
+    "color": {
+      "palette": [
+        { "slug": "ink", "name": "深蓝", "color": "#15233b" },
+        { "slug": "muted", "name": "辅助文字", "color": "#596a83" },
+        { "slug": "blue", "name": "品牌蓝", "color": "#315cf0" },
+        { "slug": "canvas", "name": "背景", "color": "#f5f8fd" },
+        { "slug": "white", "name": "白色", "color": "#ffffff" }
+      ]
+    },
+    "typography": {
+      "fluid": true,
+      "fontFamilies": [
+        { "slug": "sunky-sans", "name": "系统无衬线", "fontFamily": "Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif" }
+      ]
+    },
+    "spacing": { "units": ["px", "rem", "%", "vw"] }
+  },
+  "styles": {
+    "color": { "background": "#f5f8fd", "text": "#15233b" },
+    "typography": { "fontFamily": "var(--wp--preset--font-family--sunky-sans)", "lineHeight": "1.7" },
+    "elements": {
+      "link": { "color": { "text": "#315cf0" } },
+      "button": { "border": { "radius": "10px" }, "color": { "background": "#315cf0", "text": "#ffffff" }, "typography": { "fontWeight": "700" } }
+    },
+    "blocks": {
+      "core/site-title": { "typography": { "fontSize": "1.5rem", "fontWeight": "800" } }
+    }
+  },
+  "templateParts": [
+    { "name": "header", "title": "网站页眉", "area": "header" },
+    { "name": "footer", "title": "网站页脚", "area": "footer" }
+  ],
+  "customTemplates": [
+    { "name": "blank-canvas", "title": "空白画布", "postTypes": ["page"] }
+  ]
+}

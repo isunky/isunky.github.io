@@ -1,0 +1,23 @@
+<!-- wp:template-part {"slug":"header","area":"header"} /-->
+<!-- wp:group {"tagName":"main","align":"wide","style":{"spacing":{"padding":{"top":"32px","bottom":"100px"}}},"layout":{"type":"constrained"}} -->
+<main class="wp-block-group alignwide" style="padding-top:32px;padding-bottom:100px">
+<!-- wp:group {"align":"wide","className":"sunky-home-intro","layout":{"type":"constrained"}} --><div class="wp-block-group alignwide sunky-home-intro">
+<!-- wp:paragraph {"className":"sunky-eyebrow"} --><p class="sunky-eyebrow">SUNKY / SOFTWARE</p><!-- /wp:paragraph -->
+<!-- wp:heading {"level":1} --><h1 class="wp-block-heading">产品</h1><!-- /wp:heading -->
+<!-- wp:paragraph --><p>这里汇集我开发和维护的软件。点击产品，查看介绍、下载地址和版本记录。</p><!-- /wp:paragraph -->
+</div><!-- /wp:group -->
+<!-- wp:group {"align":"wide","layout":{"type":"constrained"}} --><div class="wp-block-group alignwide">
+<!-- wp:shortcode -->[sunky_products limit="all"]<!-- /wp:shortcode -->
+</div><!-- /wp:group -->
+<!-- wp:group {"align":"wide","className":"sunky-section","layout":{"type":"constrained"}} --><div class="wp-block-group alignwide sunky-section">
+<!-- wp:group {"align":"wide","className":"sunky-section-head","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"bottom"}} --><div class="wp-block-group alignwide sunky-section-head"><!-- wp:group {"layout":{"type":"constrained"}} --><div class="wp-block-group"><!-- wp:paragraph {"className":"sunky-eyebrow"} --><p class="sunky-eyebrow">CHANGELOG</p><!-- /wp:paragraph --><!-- wp:heading --><h2 class="wp-block-heading">最新版本与进展</h2><!-- /wp:heading --><!-- wp:paragraph --><p>发布记录、功能变化和正在解决的问题。</p><!-- /wp:paragraph --></div><!-- /wp:group --><!-- wp:paragraph --><p><a href="/product-logs/">全部更新 →</a></p><!-- /wp:paragraph --></div><!-- /wp:group -->
+<!-- wp:shortcode -->[sunky_releases limit="5"]<!-- /wp:shortcode -->
+</div><!-- /wp:group -->
+<!-- wp:group {"align":"wide","className":"sunky-section","layout":{"type":"constrained"}} --><div class="wp-block-group alignwide sunky-section">
+<!-- wp:group {"align":"wide","className":"sunky-section-head","layout":{"type":"flex","flexWrap":"wrap","justifyContent":"space-between","verticalAlignment":"bottom"}} --><div class="wp-block-group alignwide sunky-section-head"><!-- wp:group {"layout":{"type":"constrained"}} --><div class="wp-block-group"><!-- wp:paragraph {"className":"sunky-eyebrow"} --><p class="sunky-eyebrow">NOTES</p><!-- /wp:paragraph --><!-- wp:heading --><h2 class="wp-block-heading">产品笔记</h2><!-- /wp:heading --></div><!-- /wp:group --><!-- wp:paragraph --><p><a href="/logs/">阅读全部文章 →</a></p><!-- /wp:paragraph --></div><!-- /wp:group -->
+<!-- wp:query {"queryId":1,"query":{"perPage":3,"pages":0,"offset":0,"postType":"post","order":"desc","orderBy":"date","author":"","search":"","exclude":[],"sticky":"","inherit":false}} --><div class="wp-block-query"><!-- wp:post-template {"layout":{"type":"grid","columnCount":3}} -->
+<!-- wp:group {"className":"sunky-archive-card","layout":{"type":"constrained"}} --><div class="wp-block-group sunky-archive-card"><!-- wp:post-date {"className":"sunky-article-meta","format":"Y-m-d"} /--><!-- wp:post-title {"isLink":true,"level":3} /--><!-- wp:post-excerpt {"moreText":"阅读文章 →","excerptLength":24} /--></div><!-- /wp:group -->
+<!-- /wp:post-template --><!-- wp:query-no-results --><!-- wp:paragraph --><p>文章即将更新。</p><!-- /wp:paragraph --><!-- /wp:query-no-results --></div><!-- /wp:query -->
+</div><!-- /wp:group -->
+</main><!-- /wp:group -->
+<!-- wp:template-part {"slug":"footer","area":"footer"} /-->

@@ -1,0 +1,100 @@
+/*
+Theme Name: Sunky Software
+Theme URI: https://www.sunky.net/
+Author: Sunky
+Description: 面向独立软件产品、版本更新与文章的可编辑区块主题。
+Version: 1.0.0
+Requires at least: 6.7
+Requires PHP: 8.0
+Text Domain: sunky-software
+*/
+
+:root {
+	--sunky-ink: #15233b;
+	--sunky-muted: #596a83;
+	--sunky-line: #dce4ef;
+	--sunky-blue: #315cf0;
+	--sunky-blue-dark: #2149d3;
+	--sunky-canvas: #f5f8fd;
+	--sunky-card: #ffffff;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; color: var(--sunky-ink); background: var(--sunky-canvas); }
+a { text-decoration: none; }
+a:hover { color: var(--sunky-blue-dark); }
+img { max-width: 100%; height: auto; }
+
+.sunky-site-header { border-bottom: 1px solid var(--sunky-line); background: rgba(255,255,255,.93); }
+.sunky-header-inner { min-height: 76px; }
+.sunky-site-header .wp-block-site-title { margin: 0; font-weight: 800; letter-spacing: -.035em; }
+.sunky-site-header .wp-block-site-title a { color: var(--sunky-ink); }
+.sunky-site-header .wp-block-navigation { font-size: .94rem; font-weight: 650; }
+.sunky-site-header .wp-block-navigation a:hover { color: var(--sunky-blue); }
+.sunky-site-footer { border-top: 1px solid var(--sunky-line); color: var(--sunky-muted); background: #fff; }
+.sunky-site-footer p { margin: 0; }
+
+.sunky-home-intro { margin-bottom: 24px; border-bottom: 1px solid var(--sunky-line); padding: 0 0 22px; }
+.sunky-home-intro .sunky-eyebrow { margin: 0 0 4px; }
+.sunky-home-intro h1 { margin: 0 0 4px; font-size: clamp(2.1rem,4vw,3.4rem); letter-spacing: -.05em; line-height: 1.15; }
+.sunky-home-intro p:last-child { margin: 0; color: var(--sunky-muted); }
+
+.sunky-eyebrow, .sunky-kicker { color: var(--sunky-blue); font-size: .76rem; font-weight: 800; letter-spacing: .09em; text-transform: uppercase; }
+.sunky-button { display: inline-flex; align-items: center; justify-content: center; gap: 10px; min-height: 48px; border-radius: 10px; padding: 10px 22px; font-weight: 700; transition: transform .18s ease, background .18s ease, color .18s ease; }
+.sunky-button:hover { transform: translateY(-2px); }
+.sunky-button--primary { color: #fff; background: var(--sunky-blue); }
+.sunky-button--primary:hover { color: #fff; background: var(--sunky-blue-dark); }
+.sunky-button--outline { border: 1px solid var(--sunky-line); color: var(--sunky-ink); background: #fff; }
+
+.sunky-section { margin-top: clamp(56px,6vw,90px) !important; }
+.sunky-section-head { margin-bottom: 28px; }
+.sunky-section-head h2 { margin: 0 0 10px; font-size: clamp(1.8rem,3vw,2.65rem); letter-spacing: -.04em; }
+.sunky-section-head p { margin: 0; color: var(--sunky-muted); }
+.sunky-section-head a { color: var(--sunky-blue); font-weight: 700; }
+.sunky-product-grid { display: grid; grid-template-columns: repeat(3,minmax(0,1fr)); gap: 18px; }
+.sunky-product-card { display: flex; flex-direction: column; min-height: 240px; border: 1px solid var(--sunky-line); border-radius: 16px; padding: 24px; color: var(--sunky-ink); background: var(--sunky-card); box-shadow: 0 8px 25px rgba(40,67,130,.035); transition: transform .18s ease, box-shadow .18s ease; }
+.sunky-product-card:hover { transform: translateY(-4px); box-shadow: 0 20px 45px rgba(40,67,130,.1); }
+.sunky-product-card:focus-visible { outline: 3px solid var(--sunky-blue); outline-offset: 3px; }
+.sunky-card-head { display: flex; align-items: flex-start; justify-content: space-between; gap: 14px; }
+.sunky-card-head h3 { margin: 0; font-size: 1.35rem; letter-spacing: -.025em; }
+.sunky-status { display: inline-flex; align-items: center; border: 1px solid #c7d6ff; border-radius: 999px; padding: 4px 11px; color: var(--sunky-blue-dark); background: #eff3ff; font-size: .73rem; font-weight: 750; white-space: nowrap; }
+.sunky-product-card p { margin: 14px 0 20px; color: var(--sunky-muted); font-size: .93rem; line-height: 1.75; }
+.sunky-card-foot { display: flex; flex-direction: column; gap: 4px; margin-top: auto; border-top: 1px solid var(--sunky-line); padding-top: 18px; }
+.sunky-card-update { color: var(--sunky-muted); font-size: .9rem; }
+.sunky-card-link { margin-top: 8px; color: var(--sunky-blue); font-size: .93rem; font-weight: 750; }
+.sunky-release-list { border-top: 1px solid var(--sunky-line); }
+.sunky-release-row { display: flex; justify-content: space-between; gap: 28px; border-bottom: 1px solid var(--sunky-line); padding: 24px 0; }
+.sunky-release-row h3 { margin: 6px 0; font-size: 1.15rem; }
+.sunky-release-row h3 a { color: var(--sunky-ink); }
+.sunky-release-row p { margin: 0; color: var(--sunky-muted); font-size: .9rem; }
+.sunky-release-row time { flex: 0 0 auto; color: var(--sunky-muted); font-size: .88rem; }
+.sunky-empty { border: 1px dashed var(--sunky-line); border-radius: 16px; padding: 24px; color: var(--sunky-muted); }
+.sunky-product-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 12px; margin: 28px 0 38px; }
+.sunky-release-details { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; color: var(--sunky-muted); font-size: .88rem; }
+.sunky-release-details > * { border-right: 1px solid var(--sunky-line); padding-right: 10px; }
+.sunky-release-details > *:last-child { border: 0; }
+.sunky-release-details a { color: var(--sunky-blue); font-weight: 700; }
+.sunky-content-card { border: 1px solid var(--sunky-line); border-radius: 20px; padding: clamp(26px,5vw,62px); background: #fff; }
+.sunky-content-card h1 { letter-spacing: -.045em; }
+.sunky-content-card .wp-block-post-content { line-height: 1.85; }
+.sunky-content-card .wp-block-post-content a { color: var(--sunky-blue); text-decoration: underline; text-underline-offset: 3px; }
+.sunky-archive-card { height: 100%; border: 1px solid var(--sunky-line); border-radius: 16px; padding: 22px; background: #fff; }
+.sunky-archive-card h3 { margin: 8px 0; }
+.sunky-archive-card p { color: var(--sunky-muted); }
+.sunky-article-meta { color: var(--sunky-muted); font-size: .85rem; }
+.sunky-pagination { margin-top: 36px; }
+.sunky-narrow { max-width: 820px; }
+.sunky-page-intro { max-width: 760px; color: var(--sunky-muted); }
+.sunky-site-header .wp-block-navigation__responsive-container.is-menu-open { padding: 30px; }
+
+@media (max-width: 960px) {
+	.sunky-product-grid { grid-template-columns: repeat(2,minmax(0,1fr)); }
+}
+@media (max-width: 640px) {
+  .sunky-product-grid { grid-template-columns: 1fr; }
+	.sunky-release-row { flex-direction: column; gap: 7px; }
+	.sunky-section-head { align-items: flex-start !important; }
+	.sunky-section-head .wp-block-columns { flex-direction: column; }
+	.sunky-site-footer .wp-block-group { flex-wrap: wrap; }
+}
